@@ -56,63 +56,80 @@ const posts = [
     }
 ];
 
-let postContainer = document.getElementById("container");
+
+const postContainer = document.getElementById("container");
+let likeArrayCounter = [];
+
+
+posts.forEach( post => {
+    createPost(post);
+});
+
+
+let button = document.getElementsByClassName("like-button");
+
+for(i=0; i < button.length; i++){
+
+    button[i].addEventListener("click", function(event) {
+        event.preventDefault();
+        this.classList.add("like-button--liked");
+        const postId = this.getAttribute("data-postid");
+        console.log(postId)
+        let likeArray = document.getElementById("like-counter-" + postId)
+        likeArray.innerText = parseInt(likeArray.innerText) + 1;
+        likeArrayCounter.push(postId);
+        console.log(likeArrayCounter);
+
+    })
+}
 
 
 
-for(let i=0; i<posts.length; i++){
-    console.log(posts[i].author.name);
 
+
+
+
+
+
+
+
+
+
+
+
+function createPost(post){
 
     postContainer.innerHTML +=   `
     <div class="post">
-    <div class="post__header">
-        <div class="post-meta">                    
-            <div class="post-meta__icon">
-                <img class="profile-pic" src="${posts[i].author.image}" alt="${posts[i].author.name}">                    
-            </div>
-            <div class="post-meta__data">
-            <div id="post-meta__author"><h3>${posts[i].author.name}</h3></div>
-            <div class="post-meta__time">${posts[i].created}</div>
-        </div>                    
+        <div class="post__header">
+            <div class="post-meta">                    
+                <div class="post-meta__icon">
+                    <img class="profile-pic" src="${post.author.image}" alt="${post.author.name}">                    
+                </div>
+                <div class="post-meta__data">
+                    <div id="post-meta__author"><h3>${post.author.name}</h3></div>
+                    <div class="post-meta__time">${post.created}</div>
+                </div>                    
+        </div>
     </div>
-</div>
-<div class="post__text">${posts[i].content}</div>
+<div class="post__text">${post.content}</div>
 <div class="post__image">
-    <img src="${posts[i].media}" alt="">
+    <img src="${post.media}" alt="">
 </div>
 <div class="post__footer">
     <div class="likes js-likes">
         <div class="likes__cta">
-            <a id="button-like" class="like-button  js-like-button" href="#" data-postid="1">
+            <a id="button-like" class="like-button  js-like-button" href="#" data-postid="${post.id}">
                 <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                 <span class="like-button__label">Mi Piace</span>
             </a>
         </div>
         <div class="likes__counter">
-            Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
+            Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
         </div>
     </div> 
 </div>
 </div> 
 `;
 
-
-if(posts[i].author.image == null){
-    let imageFallback = document.querySelector(".profile-pic");
-    let div = document.createElement("div")
-
-    imageFallback.append(div);
-
-};
-
-};
-
-let button = document.getElementById("button-like");
-
-
-button.addEventListener("click",
-    function(){
-        button.classList.add("greencolor");
-    }
-    )
+}
