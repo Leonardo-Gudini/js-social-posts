@@ -92,7 +92,9 @@ for(i=0; i < button.length; i++){
 
 
 
-
+function reverseDate(date){
+    return date.split("-").reverse().join("/");
+}
 
 
 
@@ -108,7 +110,7 @@ function createPost(post){
                 </div>
                 <div class="post-meta__data">
                     <div id="post-meta__author"><h3>${post.author.name}</h3></div>
-                    <div class="post-meta__time">${post.created}</div>
+                    <div class="post-meta__time">${reverseDate(post.created)}</div>
                 </div>                    
         </div>
     </div>
